@@ -16,7 +16,7 @@ class Client(Thread):
     sleep_interval = 6
     values = []
     mqttc = mqtt.Client("python_pub")
-    mqttc.connect("test.mosquitto.org", 1883)
+    mqttc.connect("workstation00.raspberryip.com", 1883)
     class Tuple:
         patient_id = "0"
         measurement = 0
