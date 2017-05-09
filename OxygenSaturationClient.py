@@ -16,7 +16,7 @@ class Client(Thread):
     sleep_interval = 6
     values = []
     mqttc = mqtt.Client("python_pub")
-    mqttc.connect("workstation00.raspberryip.com", 1883)
+    mqttc.connect("localhost", 1883)
     class Tuple:
         patient_id = "0"
         measurement = 0
@@ -61,9 +61,9 @@ class Client(Thread):
 
 
     def emit(self, value):
-        tuple = self.Tuple("01",value)
-        data = json.dumps(tuple.__dict__)
-        self.mqttc.publish("blood_pressure", data)
+        tuple = self.Tuple("1",str(value))
+        data = "1,"+ str(value)
+        self.mqttc.publish("health_monitor/oxygen_saturation", data)
         print "Emiting values " + data
         #replace print with actual communication method
         # print data
@@ -71,15 +71,15 @@ class Client(Thread):
 
     def prepare(self):
         # simulate a normal distribution of values sorted
-        self.values.append(random.randint(80, 85))
-        self.values.append(random.randint(90, 95))
-        self.values.append(random.randint(96, 100))
-        self.values.append(random.randint(105, 121))
-        self.values.append(random.randint(130, 141))
-        self.values.append(random.randint(105, 121))
-        self.values.append(random.randint(96, 100))
-        self.values.append(random.randint(90, 95))
-        self.values.append(random.randint(80, 85))
+        self.values.append(random.randint(98, 100))
+        self.values.append(random.randint(97, 99))
+        self.values.append(random.randint(96, 98))
+        self.values.append(random.randint(94, 96))
+        self.values.append(random.randint(93, 96))
+        self.values.append(random.randint(92, 94))
+        self.values.append(random.randint(95, 97))
+        self.values.append(random.randint(97, 99))
+        self.values.append(random.randint(98, 100))
     # r = randint(0,9)
     # print r
 def main():
