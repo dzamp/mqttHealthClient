@@ -17,16 +17,16 @@ class Client(Thread):
     measurements_per_minute = 10
     sleep_interval = 6
     values = []
-    mqttc = mqtt.Client("python_pub")
-    mqttc.connect("localhost", 1883)
 
-    def __init__(self, measurements_per_minute, event, client_id, quick_scale):
+    def __init__(self, measurements_per_minute, event, client_id, quick_scale, host, port, client_name):
         super(Client, self).__init__()
         self._stop = event
         self.measurements_per_minute = measurements_per_minute
         self.sleep_interval =  60/float(self.measurements_per_minute)
         self.client_id = client_id
         self.quick_scale = quick_scale
+        self.mqttc = mqtt.Client(client_name)
+        self.mqttc.connect(host, port)
         print "Constructing client with measurements_per_minute %d  sleep interval  %d" % (measurements_per_minute,self.sleep_interval)
 
     def stop(self):
@@ -97,9 +97,15 @@ def main():
                         help='the client id connecting')
     parser.add_argument('quick_scale', type=int,
                         help='simulate quick pressure change')
+    parser.add_argument('host', type=str,
+                                    help='Host ip  for the mosquitto broker')
+    parser.add_argument('port', type=int,
+                        help='post for the mosquitto broker')
+    parser.add_argument('mosquitto_client_name', type=str,
+                        help='name of the mosquitto client')
     args = parser.parse_args()
     stop_event = Event()
-    client = Client(args.measurements_per_minute, stop_event, args.client_id, args.quick_scale)
+    client = Client(args.measurements_per_minute, stop_event, args.client_id, args.quick_scale, args.host, args.port, args.mosquitto_client_name)
     client.start()
     try:
         while 1:
