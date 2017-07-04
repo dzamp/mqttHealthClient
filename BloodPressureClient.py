@@ -27,7 +27,7 @@ class Client(Thread):
         self.quick_scale = quick_scale
         self.mqttc = mqtt.Client(client_name)
         self.mqttc.connect(host, port)
-        print "Constructing client with measurements_per_minute %d  sleep interval  %d" % (measurements_per_minute,self.sleep_interval)
+        print "Constructing client with measurements_per_minute %d  sleep interval  %f" % (measurements_per_minute,self.sleep_interval)
 
     def stop(self):
         self._stop.set()

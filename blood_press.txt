@@ -1,0 +1,5 @@
+Constructing client with measurements_per_minute 200  sleep interval  0.300000
+[81, 90, 96, 114, 135, 109, 96, 92, 84]
+Connecting new Client with id:dimitris to the health monitor system
+sleep interval 0.300000
+Client successfully terminated
