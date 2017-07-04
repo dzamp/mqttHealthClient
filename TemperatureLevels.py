@@ -16,8 +16,6 @@ class Client(Thread):
     measurements_per_minute = 10
     sleep_interval = 6
     values = []
-    mqttc = mqtt.Client("python_pub")
-    mqttc.connect("localhost", 1883)
 
     def __init__(self, measurements_per_minute, event, client_id,quick_scale, host, port, client_name):
         super(Client, self).__init__()
