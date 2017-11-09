@@ -18,9 +18,10 @@ class Client(Thread):
     sleep_interval = 6
     values = []
 
-    def __init__(self, measurements_per_minute, event, client_id, quick_scale, host, port, client_name):
+    # OLD def __init__(self, measurements_per_minute, event, client_id, quick_scale, host, port, client_name):
+    def __init__(self, measurements_per_minute, client_id, quick_scale, host, port, client_name):
         super(Client, self).__init__()
-        self._stop = event
+        # self._stop = event
         self.measurements_per_minute = measurements_per_minute
         self.sleep_interval =  60/float(self.measurements_per_minute)
         self.client_id = client_id
@@ -50,16 +51,27 @@ class Client(Thread):
         counter = 0
         pos=0
         print "sleep interval %f" % (60/float(self.measurements_per_minute))
-        while not self.stopped():
+        # OLD while not self.stopped():
+        #     if counter >= self.measurements_per_minute:
+        #         counter = 0
+        #         pos += 1
+        #         if pos >= length:
+        #             pos = 0
+        #             print "==========================================="
+        #     counter += 1
+        #     self.emit(random.randint(self.values[pos]-3, self.values[pos]+3))
+        #     time.sleep(self.sleep_interval)
+        while pos < length :
             if counter >= self.measurements_per_minute:
                 counter = 0
                 pos += 1
-                if pos >= length:
-                    pos = 0
-                    print "==========================================="
+                # if pos >= length:
+                #     pos = 0
+                #     print "==========================================="
             counter += 1
             self.emit(random.randint(self.values[pos]-3, self.values[pos]+3))
             time.sleep(self.sleep_interval)
+
 
     def simulate_quick_scale(self):
         for i in range(0,9):
@@ -104,16 +116,17 @@ def main():
     parser.add_argument('mosquitto_client_name', type=str,
                         help='name of the mosquitto client')
     args = parser.parse_args()
-    stop_event = Event()
-    client = Client(args.measurements_per_minute, stop_event, args.client_id, args.quick_scale, args.host, args.port, args.mosquitto_client_name)
+    # old stop_event = Event()
+    client = Client(args.measurements_per_minute, args.client_id, args.quick_scale, args.host, args.port, args.mosquitto_client_name)
+    # old client = Client(args.measurements_per_minute, stop_event, args.client_id, args.quick_scale, args.host, args.port, args.mosquitto_client_name)
     client.start()
-    try:
-        while 1:
-            time.sleep(.01)
-    except KeyboardInterrupt:
-        stop_event.set()
-        client.join()
-        print "Client successfully terminated"
+    # try:
+    #     while 1:
+    #         time.sleep(.01)
+    # except KeyboardInterrupt:
+    #     stop_event.set()
+    #     client.join()
+    #     print "Client successfully terminated"
 
 
 if __name__ == '__main__':
