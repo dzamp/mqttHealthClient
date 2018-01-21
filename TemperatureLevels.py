@@ -49,7 +49,7 @@ class Client(Thread):
         counter = 0
         pos=0
         print "sleep interval %f" % (60/float(self.measurements_per_minute))
-        while not self.stopped():
+        for i in range(100):
             if counter >= self.measurements_per_minute:
                 counter = 0
                 pos += 1
