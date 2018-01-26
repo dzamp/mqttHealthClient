@@ -26,10 +26,10 @@ def prepare():
 def emit(value):
     timestamp = int(time.time() * 1000)
     data = "dimitris" + "," + str(value) + "," + str(int(time.time() * 1000))
-    mqttc.publish("health_monitor/temperature", data)
+    mqttc.publish(topic, data)
     print "Emiting values " + data
 
-topic = "health"
+topic = "temperature"
 mqttc = mqtt.Client("dimitris")
 mqttc.connect("localhost", 1883)
 mqttc.loop_start()
@@ -38,7 +38,7 @@ print time.time();
 values = prepare()
 pos = 0;
 count =0
-for i in range(100):
+for i in range(10):
     emit(round(random.uniform(values[pos] - 0.5, values[pos] + 0.5), 1))
     time.sleep(0.5)
     if (i != 0 and i % 10 == 0):
