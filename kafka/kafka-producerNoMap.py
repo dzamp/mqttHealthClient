@@ -14,7 +14,7 @@ def randomword(length):
 producer = KafkaProducer(bootstrap_servers=['localhost:9092'])
 topic = "health"
 print time.time();
-for i in range(10):
+for i in range(1000000):
     time.sleep(0.1);
     key =  randomword(3)
     # value = randomword(5)

@@ -1,6 +1,6 @@
 import string
 import random
-
+import time
 from kafka import KafkaProducer
 from kafka import KafkaConsumer
 from kafka.errors import KafkaError
@@ -11,16 +11,20 @@ def randomword(length):
     return ''.join(random.choice(letters) for i in range(length))
 
 
-producer = KafkaProducer(bootstrap_servers=['localhost:9092'])
-topic = "helloworld"
-for i in range(10):
+producer = KafkaProducer(bootstrap_servers=['195.134.67.223:9092'])
+topic = "testnifi"
+
+for i in range(10000):
     key =  randomword(3)
     # value = randomword(5)
+    time.sleep(1)
     value = random.randint(1,100);
     print("%s : %d" % (key, value))
     producer.send(topic,key = str.encode(key),  value = str.encode(str(value)))
 
 print "OK"
+
+
 
 
 # #Zookeeper
